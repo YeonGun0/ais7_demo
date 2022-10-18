@@ -1,5 +1,5 @@
 # ais7_demo
-<img src = https://velog.velcdn.com/images/mn3271/post/27f58c66-0ff1-4c7f-a184-0f806719f7b0/image.jpg>
+<img src = 'https://velog.velcdn.com/images/mn3271/post/27f58c66-0ff1-4c7f-a184-0f806719f7b0/image.jpg'>
 
 * 멋쟁이 사자처럼 AIS7 실습(1018)
 
