@@ -53,13 +53,13 @@ sns.barplot(data=data, x="origin", y="mpg").set_title("origin 별 자동차 연�
 st.pyplot(fig)
 
 fig, ax = plt.subplots()
-sns.countplot(data=data, x='origin'
-              ).set_title("지역별 자동차 연비 데이터 수")
+sns.countplot(data=data, x='origin').set_title("지역별 자동차 연비 데이터 수")
 st.pyplot(fig)
+
+lm = sns.lmplot(data=data, x='weight', y='horsepower', hue='origin', ci=None)
+plt.title("지역별 무게와 마력")
+st.pyplot(lm)
 
 pxh = px.histogram(data, x='origin')
 st.plotly_chart(pxh)
 
-lm = sns.lmplot(data=data, x='weight', y='horsepower', 
-                    hue='origin').set_title("지역별 무게와 마력")
-st.pyplot(lm)
