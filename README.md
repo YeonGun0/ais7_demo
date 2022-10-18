@@ -17,3 +17,5 @@
 ### 틈틈이 할일
 - 파이썬 가상환경 만들기
 - 핫식스로 카페인 공급하기
+
+<img src = 'https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2Fos91M%2FbtqKC12thYL%2FuZADvwWakT2W95VmhGJ6Lk%2Fimg.png'>
