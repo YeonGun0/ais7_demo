@@ -1,38 +1,65 @@
-# https://docs.streamlit.io/library/get-started/create-an-app
-
 import streamlit as st
+import seaborn as sns
 import pandas as pd
-import numpy as np
+import matplotlib.pyplot as plt
+import koreanize_matplotlib
+import plotly.express as px
 
-st.title('Uber pickups in NYC')
+st.set_page_config(
+    page_title="Likelion AI School 자동차 연비 App",
+    page_icon="🚗",
+    layout="wide",
+)
 
-DATE_COLUMN = 'date/time'
-DATA_URL = ('https://s3-us-west-2.amazonaws.com/'
-            'streamlit-demo-data/uber-raw-data-sep14.csv.gz')
+st.markdown("# 자동차 연비 🚗")
+st.sidebar.markdown("# 자동차 연비 🚗")
+
+url = 'https://raw.githubusercontent.com/mwaskom/seaborn-data/master/mpg.csv'
+
 
 @st.cache
 def load_data(nrows):
-    data = pd.read_csv(DATA_URL, nrows=nrows)
-    lowercase = lambda x: str(x).lower()
-    data.rename(lowercase, axis='columns', inplace=True)
-    data[DATE_COLUMN] = pd.to_datetime(data[DATE_COLUMN])
+    data = pd.read_csv(url, nrows=nrows)
     return data
 
 data_load_state = st.text('Loading data...')
-data = load_data(10000)
+data = load_data(100000000)
 data_load_state.text("Done! (using st.cache)")
 
-if st.checkbox('Show raw data'):
-    st.subheader('Raw data')
-    st.write(data)
 
-st.subheader('Number of pickups by hour')
-hist_values = np.histogram(data[DATE_COLUMN].dt.hour, bins=24, range=(0,24))[0]
-st.bar_chart(hist_values)
+st.sidebar.header('User Input Features')
+selected_year = st.sidebar.selectbox('Year',
+   list(reversed(range(data.model_year.min(),data.model_year.max())))
+   )
 
-# Some number in the range 0-23
-hour_to_filter = st.slider('hour', 0, 23, 17)
-filtered_data = data[data[DATE_COLUMN].dt.hour == hour_to_filter]
+# Sidebar - origin
+sorted_unique_origin = sorted(data.origin.unique())
+selected_origin = st.sidebar.multiselect('origin', sorted_unique_origin, sorted_unique_origin)
 
-st.subheader('Map of all pickups at %s:00' % hour_to_filter)
-st.map(filtered_data)
+if selected_year > 0 :
+   data = data[data.model_year == selected_year]
+
+if len(selected_origin) > 0:
+   data = data[data.origin.isin(selected_origin)]
+
+st.dataframe(data)
+
+st.line_chart(data["mpg"])
+
+st.bar_chart(data["mpg"])
+
+fig, ax = plt.subplots()
+sns.barplot(data=data, x="origin", y="mpg").set_title("origin 별 자동차 연비")
+st.pyplot(fig)
+
+fig, ax = plt.subplots()
+sns.countplot(data=data, x='origin'
+              ).set_title("지역별 자동차 연비 데이터 수")
+st.pyplot(fig)
+
+pxh = px.histogram(data, x='origin')
+st.plotly_chart(pxh)
+
+lm = sns.lmplot(data=data, x='weight', y='horsepower', 
+                    hue='origin').set_title("지역별 무게와 마력")
+st.pyplot(lm)
