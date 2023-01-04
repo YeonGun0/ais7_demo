@@ -1,8 +1,9 @@
 pandas
 numpy
 streamlit
-finance-datareader
+streamlit-webrtc
 plotly
 seaborn
 matplotlib
-koreanize_matplotlib
+opencv-python
+
